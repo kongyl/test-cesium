@@ -17,13 +17,21 @@ module.exports = {
         cesium: path.resolve(__dirname, cesiumSource)
       }
     },
+    node: {
+      fs: 'empty'
+    },
     module: {
       unknownContextCritical: false
     },
     plugins: [
-      new CopywebpackPlugin([ { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' } ]),
-      new CopywebpackPlugin([ { from: path.join(cesiumSource, 'Assets'), to: 'Assets' } ]),
-      new CopywebpackPlugin([ { from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' } ]),
+      new CopywebpackPlugin({ 
+        patterns: [
+          { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' },
+          { from: path.join(cesiumSource, 'Assets'), to: 'Assets' },
+          { from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' },
+          { from: path.join(cesiumSource, 'ThirdParty/Workers'), to: 'ThirdParty/Workers' }
+        ]
+      }),
       new webpack.DefinePlugin({
         CESIUM_BASE_URL: JSON.stringify('')
       })
